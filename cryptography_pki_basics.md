@@ -20,7 +20,7 @@ When data is transmitted over untrusted networks it has to be encrypted.
 
 **Digital Signatures**:
 
-	   Sender S1--------------------------------> Reciever R1
+	       Sender S1--------------------------------> Reciever R1
            data->encrypted data                       encrypted data->data
            PrivKeyS1                                  PublicKeyS1
 
