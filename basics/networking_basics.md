@@ -1,21 +1,56 @@
 # Networking Basics
 
+https://docs.openstack.org/neutron/queens/admin/intro-basic-networking.html
+
+IP address and classless inter-domain routing (CIDR)
+```
+192.0.2.5/24          24bits are network
+or 
+192.0.2.5             24bits are network 
+255.255.255.0
+```
+**Ethernet and ARP**: Machines connected to switch communicate using MAC addresses  
+TCP/IP applications addresses with IP+port  
+TCP/IP applications->IP+port-> Operating system, checks if it knows mac address of other computer if not  
+it sends ARP request in broadcast domain and find MAC associated with IP address. In ARP request it asks who has this IP, please respond with your MAC address??  
+```
+arping -I eth0 192.0.2.132
+```
+
+**ARP cache**: To reduce arping request operating system has an internal cache in which IP address maps to MAC   
+```
+arp -n
+```
+**DHCP**: to assign ip address automatically from dhcp server  
+dhcp server should be in a same network.  
+clients wants IP address send request from port 68 to IP 255.255.255.255 (local broadcast)port 67  
+server replies with offering an IP address  
+openstack uses dnsmasq  
+
+**IP**: to route packets on different networks  
+```
+route -n
+ip route show
+ip route get <ip address>
+```
+machines on same subnet communicates directly without a router or gateway  
+a gateway is a default router, if no other rules matched it forwards to the packet to gateway, dhcp server  
+typically transmits a default gateway with IP address  
+
 ## Virtual Networking Basics
 
-Physical computer->NIC->port-cable-port->switch
-Virtual Machine->VNIC->port-cable-port->switch
+Physical computer->NIC->port-cable-port->switch  
+Virtual Machine->VNIC->port-cable-port->switch  
 
 
-VLAN : segregation or isolation of traffic on switch, VLAN tagging
+VLAN : segregation or isolation of traffic on switch, VLAN tagging  
 
-ARP
+Linux Bridge is a switch, which connects VNIC to pNIC  
 
-Linux Bridge is a switch, which connects VNIC to pNIC
-
-VM-> vnet0->linux bridge->eth0
+VM-> vnet0->linux bridge->eth0  
           Tap interface
 
-## Docker Networking:
+## Docker Networking:  
 
 https://mesosphere.com/blog/networking-docker-containers/
 
