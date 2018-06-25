@@ -34,9 +34,10 @@ So another option is using a network plugin
 * Docker commit (make a new image from container)
 
 You can expose docker container  service to any port on host
-````
+```
 docker run -it --name echo-server -p 45678:45678 ubuntu:14.04 bash
 ```
+
 One docker container can connect to another docker container via two approach
 * Connect via host using the exposed port (both containers can expose their ports to host)
 * Connect using linked container, in link container docker writes /etc/host file of container with ip addresss of other container. 
