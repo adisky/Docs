@@ -10,7 +10,7 @@ git clone https://github.com/adisky/cloud-provider-openstack.git
 * Move to the directory and Configure git
 ```
 git config --global user.name 'adisky'
-git config --global user.email aditi.s@india.nec.com
+git config --global user.email aditi.s@****.****.com
 git config --list
 ```
 * Update your repo with current master [avoid this if you have recently forked]
