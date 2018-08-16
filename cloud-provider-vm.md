@@ -20,6 +20,7 @@
    PATH=/usr/local/go/bin:/home/ubuntu/go/bin  
    
  * Install docker  
+ 
    sudo apt-get install apt-transport-https ca-certificates curl software-properties-common  
    sudo apt-key fingerprint 0EBFCD88  
    sudo apt-get update
@@ -39,6 +40,44 @@
    cd /home/ubuntu/go/src/k8s.io/  
    git clone https://github.com/adisky/cloud-provider-openstack.git  
    git clone https://github.com/kubernetes/kubernetes  
+   
+ * Install etcd
+   curl -L https://github.com/coreos/etcd/releases/download/v3.3.1/etcd-v3.3.1-linux-amd64.tar.gz -o etcd-v3.3.1-linux amd64.tar.gz   
+
+   tar xzvf etcd-v3.3.1-linux-amd64.tar.gz 
+   cd etcd-v3.3.1-linux-amd64 
+   sudo cp etcd /usr/local/bin/ 
+   sudo cp etcdctl /usr/local/bin/ 
+
+etcd --version
+
+* exports
+
+export EXTERNAL_CLOUD_PROVIDER_BINARY=$GOPATH/src/k8s.io/cloud-provider-openstack/openstack-cloud-controller-manager  
+export API_HOST_IP=$(ip route get 1.1.1.1 | awk '{print $7}')  
+export KUBELET_HOST="0.0.0.0" 
+export ALLOW_SECURITY_CONTEXT=true 
+export ENABLE_CRI=false  
+export ENABLE_HOSTPATH_PROVISIONER=true  
+export ENABLE_SINGLE_CA_SIGNER=true 
+export KUBE_ENABLE_CLUSTER_DNS=false 
+export LOG_LEVEL=4 
+export CLOUD_PROVIDER=openstack 
+export EXTERNAL_CLOUD_PROVIDER=true 
+export CLOUD_CONFIG=/etc/kubernetes/cloud-config 
+export ALLOW_PRIVILEGED=true 
+export ENABLE_DAEMON=true 
+export HOSTNAME_OVERRIDE=$(hostname) 
+export FEATURE_GATES="CSIPersistentVolume=true,MountPropagation=true"root@myvm:/home/ubuntu/go/src/k8s.io/kubernetes#             
+export RUNTIME_CONFIG="storage.k8s.io/v1alpha1=true" 
+
+export KUBERNETES_PROVIDER=local 
+
+  cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt
+  cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt
+  cluster/kubectl.sh config set-context local --cluster=local --user=myself
+  cluster/kubectl.sh config use-context local
+  cluster/kubectl.sh
 
 
 
