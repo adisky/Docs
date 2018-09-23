@@ -5,7 +5,7 @@
 ```
 $ sudo apt-get update
 # download url for various distros
-
+https://golang.org/dl/
 $ wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
 
 $ sudo tar -xvf go1.10.linux-amd64.tar.gz
@@ -25,3 +25,6 @@ export PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/Projects/ADMFactory/Golang  
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin  
 ```
+save all the environment variables in /etc/environment
+
+# Install VS code
