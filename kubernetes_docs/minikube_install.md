@@ -1,1 +1,0 @@
-# Install Kubernetes with minikube
