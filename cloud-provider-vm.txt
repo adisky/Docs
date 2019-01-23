@@ -2,6 +2,8 @@
 * Install openstack using devstack
 * create ubuntu16.04 image in glance 
   https://computingforgeeks.com/adding-images-openstack-glance/
+* ssh -L 1234:localhost:1234 system@nodesign.work -p 22003
+* create a new flavor
 * Create security groups
 * launch instance with private n/w and associate a floating IP
 * launch instance with ubuntu 16.04 image creating a keypair
