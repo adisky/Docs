@@ -1,7 +1,9 @@
-
+* sudo ip route add default via 192.168.200.1
 * Install openstack using devstack
 * create ubuntu16.04 image in glance 
   https://computingforgeeks.com/adding-images-openstack-glance/
+* ssh -L 1234:localhost:1234 system@nodesign.work -p 22003
+* create a new flavor
 * Create security groups
 * launch instance with private n/w and associate a floating IP
 * launch instance with ubuntu 16.04 image creating a keypair
@@ -11,8 +13,8 @@
  # Prepare vm to install kubernetes and cloud provider openstack
  
  * Install go  
-   wget https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz  
-   sudo tar -xvf go1.10.3.linux-amd64.tar.gz 
+   wget https://dl.google.com/go/go1.11.4.linux-amd64.tar.gz
+   sudo tar -xvf go1.11.4.linux-amd64.tar.gz 
    sudo mv go /usr/local/ 
  
  * Edit the /etc/environment file 
@@ -20,32 +22,38 @@
    PATH=/usr/local/go/bin:/home/ubuntu/go/bin  
    
  * Install docker  
- 
-   sudo apt-get install apt-transport-https ca-certificates curl software-properties-common  
+   sudo apt-get update
+   sudo apt-get install apt-transport-https  ca-certificates curl  gnupg2 software-properties-common
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
    sudo apt-key fingerprint 0EBFCD88  
+   sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
    sudo apt-get update
    sudo apt-get install docker-ce  
+   sudo groupadd docker
    sudo usermod -aG docker $USER  
+   # No need to run
    sed -i '/^ExecStart=\/usr\/bin\/dockerd$/ s/$/ --exec-opt native.cgroupdriver=systemd/' /lib/systemd/system/docker.service  
    sudo systemctl daemon-reload  
    sudo systemctl enable docker  
    sudo systemctl start docker  
-   
- * Install make, git,  gcc, dep  
-   sudo apt-get install git gcc make python-pip  
-   curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh  
+   #
    
  * mkdir /home/ubuntu/go/src  
+   mkdir /home/ubuntu/go/bin
    mkdir /home/ubuntu/go/src/k8s.io  
    cd /home/ubuntu/go/src/k8s.io/  
    git clone https://github.com/adisky/cloud-provider-openstack.git  
    git clone https://github.com/kubernetes/kubernetes  
-   
+ * Install make, git,  gcc, dep  
+   sudo apt-get install git gcc make python-pip  
+   curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh  
  * Install etcd
-   curl -L https://github.com/coreos/etcd/releases/download/v3.3.1/etcd-v3.3.1-linux-amd64.tar.gz -o etcd-v3.3.1-linux amd64.tar.gz   
-
-   tar xzvf etcd-v3.3.1-linux-amd64.tar.gz 
-   cd etcd-v3.3.1-linux-amd64 
+   wget -L https://github.com/coreos/etcd/releases/download/v3.3.11/etcd-v3.3.11-linux-amd64.tar.gz 
+   tar xzvf etcd-v3.3.11-linux-amd64.tar.gz
+   cd etcd-v3.3.11-linux-amd64 
    sudo cp etcd /usr/local/bin/ 
    sudo cp etcdctl /usr/local/bin/ 
 
